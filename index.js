@@ -29,6 +29,17 @@ app.post("/products", async (req, res) => {
   });
 });
 
+// get rq for read all products
+
+app.get("/products", async (req, res) => {
+  const products = await Product.find();
+  res.json({
+    success: true,
+    data: products,
+    message: " Product Fetched successfully ",
+  });
+});
+
 // database connection
 const connectMongoDB = async (req, res) => {
   const conn = await mongoose.connect(process.env.MONGODB_URI);
