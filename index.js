@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import Product from "./src/models/product";
+import Product from "./src/models/product.js";
 dotenv.config();
 
 const app = express();
@@ -9,6 +9,24 @@ app.use(express.json());
 
 app.get("/health", (req, res) => {
   res.send("all good ");
+});
+
+// post rq
+app.post("/products", async (req, res) => {
+  const { name, description, price, productImage, brand } = req.body;
+  const newProduct = new Product({
+    name,
+    description,
+    price,
+    productImage,
+    brand,
+  });
+  const saveProduct = await newProduct.save();
+  res.json({
+    success: true,
+    data: saveProduct,
+    message: " Product saved successfully ",
+  });
 });
 
 // database connection
