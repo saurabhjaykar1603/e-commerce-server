@@ -40,6 +40,25 @@ app.get("/products", async (req, res) => {
   });
 });
 
+// get rq for read indiviual products
+app.get("/product", async (req, res) => {
+  const { name } = req.query;
+  const productName =  await Product.findOne({name:name});
+
+  if (productName== null) {
+    return res.json({
+      success: false,
+      message: "Product not found",
+    });
+  }
+  res.json({
+    success: true,
+    data: productName,
+    message: "Product found successfully",
+  })
+
+});
+
 // database connection
 const connectMongoDB = async (req, res) => {
   const conn = await mongoose.connect(process.env.MONGODB_URI);
