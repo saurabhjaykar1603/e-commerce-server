@@ -43,9 +43,9 @@ app.get("/products", async (req, res) => {
 // get rq for read indiviual products
 app.get("/product", async (req, res) => {
   const { name } = req.query;
-  const productName =  await Product.findOne({name:name});
+  const productName = await Product.findOne({ name: name });
 
-  if (productName== null) {
+  if (productName == null) {
     return res.json({
       success: false,
       message: "Product not found",
@@ -55,8 +55,18 @@ app.get("/product", async (req, res) => {
     success: true,
     data: productName,
     message: "Product found successfully",
-  })
+  });
+});
 
+// delete Req for delete product
+
+app.delete("/product/:_id", async (req, res) => {
+  const { _id } = req.params;
+  await Product.deleteOne({ _id: _id });
+  res.json({
+    success: true,
+    message: "Product deleted successfully",
+  });
 });
 
 // database connection
