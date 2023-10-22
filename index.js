@@ -69,6 +69,24 @@ app.delete("/product/:_id", async (req, res) => {
   });
 });
 
+// put rq for change all documentation
+app.put("/product/:_id", async (req, res) => {
+  const { _id } = req.params;
+  const { name, description, price, productImage, brand } = req.body;
+  await Product.updateOne(
+    { _id: _id },
+    {
+      $set: { name, description, price, productImage, brand },
+    }
+  );
+  const updateProduct = await Product.findOne({ _id: _id });
+  res.json({
+    success: true,
+    data: updateProduct,
+    message: "Product updateProduct successfully ",
+  });
+});
+
 // database connection
 const connectMongoDB = async (req, res) => {
   const conn = await mongoose.connect(process.env.MONGODB_URI);
@@ -81,5 +99,5 @@ connectMongoDB();
 const PORT = 5000;
 
 app.listen(PORT, () => {
-  console.log(`listening on port 1 ${PORT}`);
+  console.log(`listening on port  ${PORT}`);
 });
