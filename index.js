@@ -87,6 +87,36 @@ app.put("/product/:_id", async (req, res) => {
   });
 });
 
+// patch rq for change specifice field of product
+app.patch("/product/:_id", async (req, res) => {
+  const { _id } = req.params;
+  const { name, description, price, productImage, brand } = req.body;
+  const product = await Product.findById(_id);
+
+  if (name) {
+    product.name = name;
+  }
+  if (productImage) {
+    product.productImage = productImage;
+  }
+
+  if (description) {
+    product.description = description;
+  }
+  if (price) {
+    product.price = price;
+  }
+  if (brand) {
+    product.brand = brand;
+  }
+  const updatedProduct = await product.save();
+  res.json({
+    success: true,
+    data: updatedProduct,
+    message: "Product updated successfully",
+  });
+});
+
 // database connection
 const connectMongoDB = async (req, res) => {
   const conn = await mongoose.connect(process.env.MONGODB_URI);
